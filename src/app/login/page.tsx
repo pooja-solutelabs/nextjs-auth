@@ -1,19 +1,44 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-
+import toast from "react-hot-toast";
 
 export default function LoginPage() {
 
+    const router = useRouter(); 
     const [user, setUser] = useState({
         email: '',
         password: '',
     })
+    const [buttonDisabled, setButtonDisabled] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    const onLogin = () => {}
 
+    const onLogin = async() => {
+        try{
+            setLoading(true);
+            const response = await axios.post("/api/users/login", user);
+            console.log(response.data);
+            toast.success("Login sucess");
+            router.push("/profile");            
+        }catch (error: unknown){
+            const errorMessage = error instanceof Error ? error.message : 'Login failed';
+            console.log("Login Failed", errorMessage);
+            toast.error(errorMessage);
+        }finally{
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        if(user.email.length>0 && user.password.length>0){
+            setButtonDisabled(false)
+        }else{
+            setButtonDisabled(true);
+        }
+    }, [user])
     return(
         <div className="min-h-screen bg-black text-white flex justify-center items-center">
             <div className="bg-white p-8 rounded-lg w-full max-w-md shadow-lg">
@@ -39,7 +64,9 @@ export default function LoginPage() {
 
                 <button 
                 onClick={onLogin}
-                className="w-full p-2 border text-white border-none bg-blue-600 rounded-lg mb-4 focus:outline-none focus:border-gray-600">Signup
+                disabled={buttonDisabled}
+                className="w-full p-2 border text-white border-none bg-blue-600 rounded-lg mb-4 focus:outline-none focus:border-gray-600">
+                    {loading ? "Loading..." : "Login"}
                 </button>
 
                 <Link className="text-black" href="/signup">Visit Signup Page</Link>

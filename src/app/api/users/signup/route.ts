@@ -38,8 +38,9 @@ export async function POST(request:NextRequest) {
             savedUser
         })
 
-    }catch (error: any){
-        return NextResponse.json({error: error.message},
+    }catch (error: unknown){
+        const errorMessage = error instanceof Error ? error.message : 'An error occurred';
+        return NextResponse.json({error: errorMessage},
             {status: 500}
         )
     }
