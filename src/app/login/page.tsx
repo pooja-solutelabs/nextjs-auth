@@ -6,73 +6,92 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 export default function LoginPage() {
-
     const router = useRouter(); 
     const [user, setUser] = useState({
         email: '',
         password: '',
-    })
-    const [buttonDisabled, setButtonDisabled] = useState(false);
+    });
+    const [buttonDisabled, setButtonDisabled] = useState(true);
     const [loading, setLoading] = useState(false);
 
-
     const onLogin = async() => {
-        try{
+        try {
             setLoading(true);
             const response = await axios.post("/api/users/login", user);
             console.log(response.data);
-            toast.success("Login sucess");
+            toast.success("Login success");
             router.push("/profile");            
-        }catch (error: unknown){
+        } catch (error) {
             const errorMessage = error instanceof Error ? error.message : 'Login failed';
             console.log("Login Failed", errorMessage);
             toast.error(errorMessage);
-        }finally{
+        } finally {
             setLoading(false);
         }
     }
 
     useEffect(() => {
-        if(user.email.length>0 && user.password.length>0){
-            setButtonDisabled(false)
-        }else{
+        if(user.email.length > 0 && user.password.length > 0) {
+            setButtonDisabled(false);
+        } else {
             setButtonDisabled(true);
         }
-    }, [user])
-    return(
-        <div className="min-h-screen bg-black text-white flex justify-center items-center">
-            <div className="bg-white p-8 rounded-lg w-full max-w-md shadow-lg">
-                <h1 className="text-2xl text-black font-bold mb-6 text-center">Login</h1>
+    }, [user]);
 
-                <label className="text-black" htmlFor="email">email</label>
-                <input
-                    id="email"
-                    type="text"
-                    value={user.email}
-                    onChange={(e) => setUser({...user, email:e.target.value})}
-                    placeholder="email"
-                    className="w-full p-2 mb-4 text-black rounded border border-gray-600" />   
+    return (
+        <div className="min-h-screen bg-gradient-to-br from-blue-800 via-purple-800 to-indigo-900 flex justify-center items-center p-4">
+            <div className="bg-white backdrop-blur-sm p-8 rounded-lg w-full max-w-md shadow-xl">
+                <h1 className="text-2xl text-gray-800 font-bold mb-6 text-center font-sans">Login</h1>
+                
+                <div className="mb-4">
+                    <label className="block text-gray-900 text-sm font-semibold mb-2 font-sans tracking-wide" htmlFor="email">
+                        Email
+                    </label>
+                    <input
+                        id="email"
+                        type="email"
+                        value={user.email}
+                        onChange={(e) => setUser({...user, email: e.target.value})}
+                        placeholder="Enter your email"
+                        className="w-full p-3 text-gray-800 bg-gray-50 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 font-sans"
+                    />   
+                </div>
 
-                <label className="text-black" htmlFor="password">password</label>
-                <input
-                    id="password"
-                    type="text"
-                    value={user.password}
-                    onChange={(e) => setUser({...user, password:e.target.value})}
-                    placeholder="password"
-                    className="w-full p-2 mb-4 rounded text-black border border-gray-600" />
+                <div className="mb-6">
+                    <label className="block text-gray-900 text-sm font-semibold mb-2 font-sans tracking-wide" htmlFor="password">
+                        Password
+                    </label>
+                    <input
+                        id="password"
+                        type="password"
+                        value={user.password}
+                        onChange={(e) => setUser({...user, password: e.target.value})}
+                        placeholder="Enter your password"
+                        className="w-full p-3 text-gray-800 bg-gray-50 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 font-sans"
+                    />
+                </div>
 
                 <button 
-                onClick={onLogin}
-                disabled={buttonDisabled}
-                className="w-full p-2 border text-white border-none bg-blue-600 rounded-lg mb-4 focus:outline-none focus:border-gray-600">
-                    {loading ? "Loading..." : "Login"}
+                    onClick={onLogin}
+                    disabled={buttonDisabled}
+                    className={`w-full p-3 text-white rounded-md shadow-sm font-medium transition duration-200 ${
+                        buttonDisabled 
+                            ? 'bg-blue-400 cursor-not-allowed' 
+                            : 'bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
+                    }`}
+                >
+                    {loading ? "Signing in..." : "Login"}
                 </button>
 
-                <Link className="text-black" href="/signup">Visit Signup Page</Link>
+                <div className="mt-6 text-center">
+                    <p className="text-gray-700 font-sans">
+                        Do not have an account?{" "}
+                        <Link className="text-blue-600 hover:text-blue-800 font-medium" href="/signup">
+                            Sign up
+                        </Link>
+                    </p>
+                </div>
             </div>
-            
         </div>
-    )
-    
+    );
 }

@@ -42,43 +42,71 @@ export default function SignupPage() {
     },[user])
 
     return(
-        <div className="min-h-screen bg-black text-white flex justify-center items-center">
+        <div className="min-h-screen bg-gradient-to-br from-blue-800 via-purple-800 to-indigo-900 flex justify-center items-center p-4">
             <div className="bg-white p-8 rounded-lg w-full max-w-md shadow-lg">
                 <h1 className="text-2xl text-black font-bold mb-6 text-center">{loading ? "Processing.." : "Signup"}</h1>
-                <label className="text-black" htmlFor="username">username</label>
-                <input
-                    id="username"
-                    type="text"
-                    value={user.username}
-                    onChange={(e) => setUser({...user, username:e.target.value})}
-                    placeholder="username"
-                    className="w-full p-2 mb-4 rounded text-black border border-gray-600" />
 
-                <label className="text-black" htmlFor="email">email</label>
-                <input
-                    id="email"
-                    type="text"
-                    value={user.email}
-                    onChange={(e) => setUser({...user, email:e.target.value})}
-                    placeholder="email"
-                    className="w-full p-2 mb-4 text-black rounded border border-gray-600" />   
+                <div className="mb-4">
+                    <label className="block text-gray-900 text-sm font-semibold mb-2 font-sans tracking-wide" htmlFor="username">
+                        Username
+                    </label>
+                    <input
+                        id="username"
+                        type="username"
+                        value={user.username}
+                        onChange={(e) => setUser({...user, username: e.target.value})}
+                        placeholder="Enter your name"
+                        className="w-full p-3 text-gray-800 bg-gray-50 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 font-sans"
+                    />
+                </div>
 
-                <label className="text-black" htmlFor="password">password</label>
-                <input
-                    id="password"
-                    type="text"
-                    value={user.password}
-                    onChange={(e) => setUser({...user, password:e.target.value})}
-                    placeholder="password"
-                    className="w-full p-2 mb-4 rounded text-black border border-gray-600" />
+                <div className="mb-6">
+                    <label className="block text-gray-900 text-sm font-semibold mb-2 font-sans tracking-wide" htmlFor="email">
+                        Email
+                    </label>
+                    <input
+                        id="email"
+                        type="email"
+                        value={user.email}
+                        onChange={(e) => setUser({...user, email: e.target.value})}
+                        placeholder="Enter your email"
+                        className="w-full p-3 text-gray-800 bg-gray-50 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 font-sans"
+                    />   
+                </div> 
+                <div className="mb-6">
+                    <label className="block text-gray-900 text-sm font-semibold mb-2 font-sans tracking-wide" htmlFor="password">
+                        Password
+                    </label>
+                    <input
+                        id="password"
+                        type="password"
+                        value={user.password}
+                        onChange={(e) => setUser({...user, password: e.target.value})}
+                        placeholder="Enter your password"
+                        className="w-full p-3 text-gray-800 bg-gray-50 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 font-sans"
+                    />
+                </div>
 
                 <button 
-                onClick={onSignup}
-                className="w-full p-2 border text-white border-none bg-blue-600 rounded-lg mb-4 focus:outline-none focus:border-gray-600">
-                    {buttonDisabled ? "No Signup" : "Signup"}
+                    onClick={onSignup}
+                    disabled={buttonDisabled}
+                    className={`w-full p-3 text-white rounded-md shadow-sm font-medium transition duration-200 ${
+                        buttonDisabled 
+                            ? 'bg-blue-400 cursor-not-allowed' 
+                            : 'bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
+                    }`}
+                >
+                    {loading ? "Creating your account" : "Sign up"}
                 </button>
 
-                <Link className="text-black" href="/login">Visit Login Page</Link>
+                <div className="mt-6 text-center">
+                    <p className="text-gray-700 font-sans">
+                        Already have an account?{" "}
+                        <Link className="text-blue-600 hover:text-blue-800 font-medium" href="/login">
+                            Login
+                        </Link>
+                    </p>
+                </div>
             </div>
             
         </div>
