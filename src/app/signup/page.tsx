@@ -56,7 +56,7 @@ export default function SignupPage() {
                         value={user.username}
                         onChange={(e) => setUser({...user, username: e.target.value})}
                         placeholder="Enter your name"
-                        className="w-full p-3 text-gray-800 bg-gray-50 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 font-sans"
+                        className="w-full p-3 text-gray-800 bg-gray-50 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200 font-sans"
                     />
                 </div>
 
@@ -70,7 +70,7 @@ export default function SignupPage() {
                         value={user.email}
                         onChange={(e) => setUser({...user, email: e.target.value})}
                         placeholder="Enter your email"
-                        className="w-full p-3 text-gray-800 bg-gray-50 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 font-sans"
+                        className="w-full p-3 text-gray-800 bg-gray-50 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200 font-sans"
                     />   
                 </div> 
                 <div className="mb-6">
@@ -83,7 +83,7 @@ export default function SignupPage() {
                         value={user.password}
                         onChange={(e) => setUser({...user, password: e.target.value})}
                         placeholder="Enter your password"
-                        className="w-full p-3 text-gray-800 bg-gray-50 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 font-sans"
+                        className="w-full p-3 text-gray-800 bg-gray-50 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200 font-sans"
                     />
                 </div>
 
@@ -92,8 +92,8 @@ export default function SignupPage() {
                     disabled={buttonDisabled}
                     className={`w-full p-3 text-white rounded-md shadow-sm font-medium transition duration-200 ${
                         buttonDisabled 
-                            ? 'bg-blue-400 cursor-not-allowed' 
-                            : 'bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
+                            ? 'bg-indigo-400 cursor-not-allowed' 
+                            : 'bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
                     }`}
                 >
                     {loading ? "Creating your account" : "Sign up"}
@@ -102,7 +102,7 @@ export default function SignupPage() {
                 <div className="mt-6 text-center">
                     <p className="text-gray-700 font-sans">
                         Already have an account?{" "}
-                        <Link className="text-blue-600 hover:text-blue-800 font-medium" href="/login">
+                        <Link className="text-indigo-600 hover:text-blue-800 font-medium" href="/login">
                             Login
                         </Link>
                     </p>
