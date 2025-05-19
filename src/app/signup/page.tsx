@@ -92,8 +92,8 @@ export default function SignupPage() {
                     disabled={buttonDisabled}
                     className={`w-full p-3 text-white rounded-md shadow-sm font-medium transition duration-200 ${
                         buttonDisabled 
-                            ? 'bg-indigo-400 cursor-not-allowed' 
-                            : 'bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+                            ? ' bg-orange-400 cursor-not-allowed' 
+                            : 'bg-orange-500 hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-2orange-500 focus:ring-offset-2'
                     }`}
                 >
                     {loading ? "Creating your account" : "Sign up"}
@@ -102,7 +102,7 @@ export default function SignupPage() {
                 <div className="mt-6 text-center">
                     <p className="text-gray-700 font-sans">
                         Already have an account?{" "}
-                        <Link className="text-indigo-600 hover:text-blue-800 font-medium" href="/login">
+                        <Link className="text-orange-500 hover:text-orange-400 font-medium" href="/login">
                             Login
                         </Link>
                     </p>

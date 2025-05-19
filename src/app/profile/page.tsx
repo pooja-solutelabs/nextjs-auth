@@ -47,8 +47,8 @@ export default function ProfilePage() {
     <div className="min-h-screen bg-gradient-to-br from-blue-800 via-purple-800 to-indigo-900 flex justify-center items-center p-4">
       <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-8 space-y-6">
         <div className="flex items-center justify-center mb-6">
-          <div className="bg-indigo-100 p-3 rounded-full">
-            <UserIcon size={32} className="text-indigo-600" />
+          <div className="bg-orange-100 p-3 rounded-full">
+            <UserIcon size={32} className="text-orange-600" />
           </div>
         </div>
         
@@ -65,7 +65,7 @@ export default function ProfilePage() {
             ) : (
               <Link 
                 href={`/profile/${data}`}
-                className="text-indigo-600 hover:text-indigo-800 font-medium transition-colors"
+                className="text-orange-600 hover:text-orange-800 font-medium transition-colors"
               >
                 {data}
               </Link>
@@ -77,7 +77,7 @@ export default function ProfilePage() {
           <button 
             onClick={getUserDetails}
             disabled={loading}
-            className="flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-md transition-colors disabled:opacity-70"
+            className="flex items-center justify-center bg-orange-400 hover:bg-orange-500 text-white font-medium py-2 px-4 rounded-md transition-colors disabled:opacity-70"
           >
             <IdCard size={18} className="mr-2" />
             {loading ? "Loading..." : "Get User Details"}

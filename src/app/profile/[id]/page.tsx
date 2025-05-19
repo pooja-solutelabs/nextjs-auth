@@ -18,7 +18,7 @@ export default function UserProfile({ params }: { params: Promise<{ id: string }
             <div className="flex flex-col items-center">
               <p className="text-sm text-gray-500 mb-2">User ID</p>
               <div className="bg-indigo-100 px-4 py-2 rounded-md">
-                <span className="font-mono text-indigo-700 font-medium">{unwrappedParams.id}</span>
+                <span className="font-mono text-orange-600 font-medium">{unwrappedParams.id}</span>
               </div>
             </div>
           </div>

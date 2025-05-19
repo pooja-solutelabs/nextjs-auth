@@ -12,7 +12,7 @@ export default function LoginPage() {
         password: '',
     });
     const [buttonDisabled, setButtonDisabled] = useState(true);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] =   useState(false);
 
     const onLogin = async() => {
         try {
@@ -76,8 +76,8 @@ export default function LoginPage() {
                     disabled={buttonDisabled}
                     className={`w-full p-3 text-white rounded-md shadow-sm font-medium transition duration-200 ${
                         buttonDisabled 
-                            ? 'bg-indigo-400 cursor-not-allowed' 
-                            : 'bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
+                            ? 'bg-orange-400 cursor-not-allowed' 
+                            : 'bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2'
                     }`}
                 >
                     {loading ? "Signing in..." : "Login"}
@@ -86,7 +86,7 @@ export default function LoginPage() {
                 <div className="mt-6 text-center">
                     <p className="text-gray-700 font-sans">
                         Do not have an account?{" "}
-                        <Link className="text-indigo-600 hover:text-blue-800 font-medium" href="/signup">
+                        <Link className="text-orange-500 hover:text-orange-400 font-medium" href="/signup">
                             Sign up
                         </Link>
                     </p>

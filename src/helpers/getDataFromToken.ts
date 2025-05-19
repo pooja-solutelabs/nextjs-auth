@@ -10,3 +10,4 @@ export const getDataFromToken = ( request: NextRequest ) => {
         throw new Error(error instanceof Error ? error.message : 'Unknown error occurred');
     }
 }   
+
