@@ -12,7 +12,7 @@ export default function LoginPage() {
         password: '',
     });
     const [buttonDisabled, setButtonDisabled] = useState(true);
-    const [loading, setLoading] =   useState(false);
+    const [loading, setLoading] = useState(false);
 
     const onLogin = async() => {
         try {
@@ -39,57 +39,100 @@ export default function LoginPage() {
     }, [user]);
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-800 via-purple-800 to-indigo-900 flex justify-center items-center p-4">
-            <div className="bg-white backdrop-blur-sm p-8 rounded-lg w-full max-w-md shadow-xl">
-                <h1 className="text-2xl text-gray-800 font-bold mb-6 text-center font-sans">Login</h1>
+        <div className="min-h-screen bg-gray-50 flex flex-col justify-center items-center p-4">
+            
+            <div className="absolute top-0 left-0 w-full h-64 bg-gradient-to-r from-blue-500 to-purple-600 rounded-br-full opacity-80"></div>
+            <div className="absolute bottom-0 right-0 w-full h-64 bg-gradient-to-l from-orange-500 to-pink-500 rounded-tl-full opacity-70"></div>
+    
+            <div className="bg-white p-8 rounded-2xl w-full max-w-md shadow-xl relative z-10 border border-gray-100">
+                <h1 className="text-3xl font-extrabold mb-8 text-center bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text">Welcome Back</h1>
                 
-                <div className="mb-4">
-                    <label className="block text-gray-900 text-sm font-semibold mb-2 font-sans tracking-wide" htmlFor="email">
-                        Email
-                    </label>
-                    <input
-                        id="email"
-                        type="email"
-                        value={user.email}
-                        onChange={(e) => setUser({...user, email: e.target.value})}
-                        placeholder="Enter your email"
-                        className="w-full p-3 text-gray-800 bg-gray-50 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200 font-sans"
-                    />   
+                <div className="space-y-6">
+                    <div>
+                        <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="email">
+                            Email Address
+                        </label>
+                        <div className="relative">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg className="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                                </svg>
+                            </div>
+                            <input
+                                id="email"
+                                type="email"
+                                value={user.email}
+                                onChange={(e) => setUser({...user, email: e.target.value})}
+                                placeholder="you@example.com"
+                                className="w-full py-3 pl-10 pr-4 text-gray-700 bg-gray-50 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                            />   
+                        </div>
+                    </div>
+
+                    <div>
+                        <div className="flex items-center justify-between mb-2">
+                            <label className="block text-gray-700 text-sm font-medium" htmlFor="password">
+                                Password
+                            </label>
+                            <a href="#" className="text-sm text-blue-600 hover:underline">
+                                Forgot password?
+                            </a>
+                        </div>
+                        <div className="relative">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg className="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                                </svg>
+                            </div>
+                            <input
+                                id="password"
+                                type="password"
+                                value={user.password}
+                                onChange={(e) => setUser({...user, password: e.target.value})}
+                                placeholder="••••••••••"
+                                className="w-full py-3 pl-10 pr-4 text-gray-700 bg-gray-50 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                            />
+                        </div>
+                    </div>
+
+                    <button 
+                        onClick={onLogin}
+                        disabled={buttonDisabled || loading}
+                        className={`w-full py-3 px-4 flex justify-center items-center text-white rounded-lg shadow-md font-medium transition duration-300 ${
+                            buttonDisabled || loading
+                                ? 'bg-blue-300 cursor-not-allowed' 
+                                : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
+                        }`}
+                    >
+                        {loading ? (
+                            <>
+                                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Signing in...
+                            </>
+                        ) : "Sign In"}
+                    </button>
                 </div>
 
-                <div className="mb-6">
-                    <label className="block text-gray-900 text-sm font-semibold mb-2 font-sans tracking-wide" htmlFor="password">
-                        Password
-                    </label>
-                    <input
-                        id="password"
-                        type="password"
-                        value={user.password}
-                        onChange={(e) => setUser({...user, password: e.target.value})}
-                        placeholder="Enter your password"
-                        className="w-full p-3 text-gray-800 bg-gray-50 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200 font-sans"
-                    />
-                </div>
-
-                <button 
-                    onClick={onLogin}
-                    disabled={buttonDisabled}
-                    className={`w-full p-3 text-white rounded-md shadow-sm font-medium transition duration-200 ${
-                        buttonDisabled 
-                            ? 'bg-orange-400 cursor-not-allowed' 
-                            : 'bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2'
-                    }`}
-                >
-                    {loading ? "Signing in..." : "Login"}
-                </button>
-
-                <div className="mt-6 text-center">
-                    <p className="text-gray-700 font-sans">
+                <div className="mt-8 pt-6 text-center border-t border-gray-100">
+                    <p className="text-gray-600">
                         Do not have an account?{" "}
-                        <Link className="text-orange-500 hover:text-orange-400 font-medium" href="/signup">
-                            Sign up
+                        <Link className="text-blue-600 hover:text-blue-500 font-medium" href="/signup">
+                            Create account
                         </Link>
                     </p>
+                </div>
+                
+                {/* Social login options */}
+                <div className="mt-6">
+                    <div className="relative">
+                        <div className="absolute inset-0 flex items-center">
+                            <div className="w-full border-t border-gray-200"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
