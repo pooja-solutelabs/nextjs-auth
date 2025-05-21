@@ -13,8 +13,56 @@ export default function LoginPage() {
     });
     const [buttonDisabled, setButtonDisabled] = useState(true);
     const [loading, setLoading] = useState(false);
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+
+    const validateEmail = (email: string) => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/ ;
+        return regex.test(email);
+    }
+
+    const validatePass = (password: string) => {
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+        return regex.test(password);
+    }
+
+    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newEmail = e.target.value;
+        setUser({...user, email: newEmail});
+        
+        if (validateEmail(newEmail)) {
+            setEmailError("");
+        } else if (newEmail) {
+            setEmailError("Please enter a valid email address");
+        } else {
+            setEmailError("");
+        }
+    };
+
+    const handlePassChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newPass = e.target.value;
+        setUser({...user, password: newPass});
+
+        if(validatePass(newPass)){
+            setPasswordError("");
+        } else if (newPass) {
+            setPasswordError("Password must contain at least 8 characters, including uppercase, lowercase, number, and special character");
+        } else {
+            setPasswordError("");
+        }
+    }
 
     const onLogin = async() => {
+        if(!validateEmail(user.email)) {
+            setEmailError("Please enter a valid email address");
+            return; 
+        }
+
+        if (!validatePass(user.password)) {
+            setPasswordError("Password must contain at least 8 characters, including uppercase, lowercase, number, and special character");
+            return;
+        }
+
         try {
             setLoading(true);
             const response = await axios.post("/api/users/login", user);
@@ -31,12 +79,13 @@ export default function LoginPage() {
     }
 
     useEffect(() => {
-        if(user.email.length > 0 && user.password.length > 0) {
+        if(user.email.length > 0 && user.password.length > 0 && 
+           !emailError && !passwordError) {
             setButtonDisabled(false);
         } else {
             setButtonDisabled(true);
         }
-    }, [user]);
+    }, [user, emailError, passwordError]);
 
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col justify-center items-center p-4">
@@ -63,11 +112,30 @@ export default function LoginPage() {
                                 id="email"
                                 type="email"
                                 value={user.email}
-                                onChange={(e) => setUser({...user, email: e.target.value})}
+                                onChange={handleEmailChange}
+                                onBlur={() => {
+                                    if (user.email && !validateEmail(user.email)) {
+                                        setEmailError("Please enter a valid email address");
+                                    }
+                                }}
                                 placeholder="you@example.com"
-                                className="w-full py-3 pl-10 pr-4 text-gray-700 bg-gray-50 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                                className={`w-full py-3 pl-10 pr-4 text-gray-700 bg-gray-50 rounded-lg border ${
+                                    emailError ? 'border-red-500' : 'border-gray-200'
+                                } focus:outline-none focus:ring-2 ${
+                                    emailError ? 'focus:ring-red-500' : 'focus:ring-blue-500'
+                                } focus:border-transparent transition duration-200`}
                             />   
                         </div>
+                        {emailError && (
+                            <p className="mt-2 text-sm text-red-600">
+                                <span className="flex items-center">
+                                    <svg className="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                                    </svg>
+                                    {emailError}
+                                </span>
+                            </p>
+                        )}
                     </div>
 
                     <div>
@@ -89,11 +157,30 @@ export default function LoginPage() {
                                 id="password"
                                 type="password"
                                 value={user.password}
-                                onChange={(e) => setUser({...user, password: e.target.value})}
+                                onChange={handlePassChange}
+                                onBlur={() => {
+                                    if (user.password && !validatePass(user.password)) {
+                                        setPasswordError("Password must contain at least 8 characters, including uppercase, lowercase, number, and special character");
+                                    }
+                                }}
                                 placeholder="••••••••••"
-                                className="w-full py-3 pl-10 pr-4 text-gray-700 bg-gray-50 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                                className={`w-full py-3 pl-10 pr-4 text-gray-700 bg-gray-50 rounded-lg border ${
+                                    passwordError ? 'border-red-500' : 'border-gray-200'
+                                } focus:outline-none focus:ring-2 ${
+                                    passwordError ? 'focus:ring-red-500' : 'focus:ring-blue-500'
+                                } focus:border-transparent transition duration-200`}
                             />
                         </div>
+                        {passwordError && (
+                            <p className="mt-2 text-sm text-red-600">
+                                <span className="flex items-center">
+                                    <svg className="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                                    </svg>
+                                    {passwordError}
+                                </span>
+                            </p>
+                        )}
                     </div>
 
                     <button 
@@ -124,15 +211,6 @@ export default function LoginPage() {
                             Create account
                         </Link>
                     </p>
-                </div>
-                
-                {/* Social login options */}
-                <div className="mt-6">
-                    <div className="relative">
-                        <div className="absolute inset-0 flex items-center">
-                            <div className="w-full border-t border-gray-200"></div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

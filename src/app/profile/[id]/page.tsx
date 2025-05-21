@@ -2,7 +2,7 @@
 
 import { use } from "react";
 import Link from "next/link";
-import { UserIcon, ArrowLeft, ActivityIcon } from "lucide-react";
+import { UserIcon, ArrowLeft } from "lucide-react";
 
 export default function UserProfile({ params }: { params: Promise<{ id: string }> }) {
   const unwrappedParams = use(params);
@@ -47,9 +47,9 @@ export default function UserProfile({ params }: { params: Promise<{ id: string }
             <div className="bg-gray-50 rounded-xl p-4 flex flex-col items-center shadow-sm">
               <div className="flex items-center justify-center mb-2">
                 <p className="text-sm font-medium text-gray-500">Status</p>
-              </div>
-              <div className="flex items-center">
-                <div className="w-2 h-2 rounded-full bg-green-500 mr-2"></div>
+            </div>
+            <div className="flex items-center">
+              <div className="w-2 h-2 rounded-full bg-green-500 mr-2"></div>
                 <p className="font-medium text-gray-700">Active</p>
               </div>
             </div>
