@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function LoginPage() {
     const router = useRouter(); 
@@ -15,6 +16,7 @@ export default function LoginPage() {
     const [loading, setLoading] = useState(false);
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
+    const [showPass, setShowPass] = useState(false);
 
     const validateEmail = (email: string) => {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/ ;
@@ -24,6 +26,10 @@ export default function LoginPage() {
     const validatePass = (password: string) => {
         const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
         return regex.test(password);
+    }
+
+    const togglePassVisibility = () => {
+        setShowPass((prev) => !prev)
     }
 
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -155,7 +161,7 @@ export default function LoginPage() {
                             </div>
                             <input
                                 id="password"
-                                type="password"
+                                type={showPass ? "text" : "password"}
                                 value={user.password}
                                 onChange={handlePassChange}
                                 onBlur={() => {
@@ -163,13 +169,19 @@ export default function LoginPage() {
                                         setPasswordError("Password must contain at least 8 characters, including uppercase, lowercase, number, and special character");
                                     }
                                 }}
-                                placeholder="••••••••••"
+                                placeholder="password"
                                 className={`w-full py-3 pl-10 pr-4 text-gray-700 bg-gray-50 rounded-lg border ${
                                     passwordError ? 'border-red-500' : 'border-gray-200'
                                 } focus:outline-none focus:ring-2 ${
                                     passwordError ? 'focus:ring-red-500' : 'focus:ring-blue-500'
                                 } focus:border-transparent transition duration-200`}
                             />
+                            <span
+                            onClick={togglePassVisibility}
+                            className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer text-gray-600"                            
+                            >
+                                {showPass ? <FaEye /> : <FaEyeSlash />}
+                            </span>
                         </div>
                         {passwordError && (
                             <p className="mt-2 text-sm text-red-600">
