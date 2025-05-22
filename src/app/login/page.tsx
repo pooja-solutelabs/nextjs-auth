@@ -23,11 +23,6 @@ export default function LoginPage() {
         return regex.test(email);
     }
 
-    const validatePass = (password: string) => {
-        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
-        return regex.test(password);
-    }
-
     const togglePassVisibility = () => {
         setShowPass((prev) => !prev)
     }
@@ -43,41 +38,41 @@ export default function LoginPage() {
         } else {
             setEmailError("");
         }
-    };
+    }
 
-    const handlePassChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newPass = e.target.value;
-        setUser({...user, password: newPass});
-
-        if(validatePass(newPass)){
+    const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newPassword = e.target.value;
+        setUser({...user, password: newPassword});
+        
+        if (newPassword.length >= 8) {
             setPasswordError("");
-        } else if (newPass) {
-            setPasswordError("Password must contain at least 8 characters, including uppercase, lowercase, number, and special character");
+        } else if (newPassword) {
+            setPasswordError("Password must be at least 8 characters");
         } else {
             setPasswordError("");
         }
     }
 
-    const onLogin = async() => {
-        if(!validateEmail(user.email)) {
+    const onLogin = async () => {
+        if (!validateEmail(user.email)) {
             setEmailError("Please enter a valid email address");
-            return; 
+            return;
         }
 
-        if (!validatePass(user.password)) {
-            setPasswordError("Password must contain at least 8 characters, including uppercase, lowercase, number, and special character");
+        if (user.password.length < 8) {
+            setPasswordError("Password must be at least 8 characters");
             return;
         }
 
         try {
             setLoading(true);
             const response = await axios.post("/api/users/login", user);
-            console.log(response.data);
-            toast.success("Login success");
-            router.push("/profile");            
+            console.log("Login success", response.data);
+            toast.success("Login successful");
+            router.push("/profile");
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : 'Login failed';
-            console.log("Login Failed", errorMessage);
+            console.log("Login failed", errorMessage);
             toast.error(errorMessage);
         } finally {
             setLoading(false);
@@ -85,8 +80,7 @@ export default function LoginPage() {
     }
 
     useEffect(() => {
-        if(user.email.length > 0 && user.password.length > 0 && 
-           !emailError && !passwordError) {
+        if (user.email.length > 0 && user.password.length > 0 && !emailError && !passwordError) {
             setButtonDisabled(false);
         } else {
             setButtonDisabled(true);
@@ -95,12 +89,11 @@ export default function LoginPage() {
 
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col justify-center items-center p-4">
-            
             <div className="absolute top-0 left-0 w-full h-64 bg-gradient-to-r from-blue-500 to-purple-600 rounded-br-full opacity-80"></div>
             <div className="absolute bottom-0 right-0 w-full h-64 bg-gradient-to-l from-orange-500 to-pink-500 rounded-tl-full opacity-70"></div>
     
             <div className="bg-white p-8 rounded-2xl w-full max-w-md shadow-xl relative z-10 border border-gray-100">
-                <h1 className="text-3xl font-extrabold mb-8 text-center bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text">Welcome Back</h1>
+                <h1 className="text-3xl font-extrabold mb-8 text-center bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text">Login to Your Account</h1>
                 
                 <div className="space-y-6">
                     <div>
@@ -145,14 +138,9 @@ export default function LoginPage() {
                     </div>
 
                     <div>
-                        <div className="flex items-center justify-between mb-2">
-                            <label className="block text-gray-700 text-sm font-medium" htmlFor="password">
-                                Password
-                            </label>
-                            <a href="#" className="text-sm text-blue-600 hover:underline">
-                                Forgot password?
-                            </a>
-                        </div>
+                        <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="password">
+                            Password
+                        </label>
                         <div className="relative">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <svg className="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -163,22 +151,22 @@ export default function LoginPage() {
                                 id="password"
                                 type={showPass ? "text" : "password"}
                                 value={user.password}
-                                onChange={handlePassChange}
+                                onChange={handlePasswordChange}
                                 onBlur={() => {
-                                    if (user.password && !validatePass(user.password)) {
-                                        setPasswordError("Password must contain at least 8 characters, including uppercase, lowercase, number, and special character");
+                                    if (user.password && user.password.length < 8) {
+                                        setPasswordError("Password must be at least 8 characters");
                                     }
                                 }}
-                                placeholder="password"
-                                className={`w-full py-3 pl-10 pr-4 text-gray-700 bg-gray-50 rounded-lg border ${
+                                placeholder="Your password"
+                                className={`w-full py-3 pl-10 pr-10 text-gray-700 bg-gray-50 rounded-lg border ${
                                     passwordError ? 'border-red-500' : 'border-gray-200'
                                 } focus:outline-none focus:ring-2 ${
                                     passwordError ? 'focus:ring-red-500' : 'focus:ring-blue-500'
                                 } focus:border-transparent transition duration-200`}
                             />
                             <span
-                            onClick={togglePassVisibility}
-                            className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer text-gray-600"                            
+                                onClick={togglePassVisibility}
+                                className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer text-gray-600"                            
                             >
                                 {showPass ? <FaEye /> : <FaEyeSlash />}
                             </span>
@@ -193,6 +181,24 @@ export default function LoginPage() {
                                 </span>
                             </p>
                         )}
+                    </div>
+
+                    <div className="flex items-center justify-between text-sm">
+                        <div className="flex items-center">
+                            <input
+                                id="remember-me"
+                                name="remember-me"
+                                type="checkbox"
+                                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                            />
+                            <label htmlFor="remember-me" className="ml-2 block text-gray-700">
+                                Remember me
+                            </label>
+                        </div>
+
+                        <Link href="/forgotpassword" className="text-blue-600 hover:text-blue-500 font-medium">
+                            Forgot password?
+                        </Link>
                     </div>
 
                     <button 
@@ -210,9 +216,9 @@ export default function LoginPage() {
                                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                 </svg>
-                                Signing in...
+                                Logging in...
                             </>
-                        ) : "Sign In"}
+                        ) : "Login"}
                     </button>
                 </div>
 
@@ -220,7 +226,7 @@ export default function LoginPage() {
                     <p className="text-gray-600">
                         Do not have an account?{" "}
                         <Link className="text-blue-600 hover:text-blue-500 font-medium" href="/signup">
-                            Create account
+                            Sign up
                         </Link>
                     </p>
                 </div>

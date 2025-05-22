@@ -58,7 +58,7 @@ export default function VerifyEmailPage() {
           <div className="flex flex-col items-center justify-center space-y-4 py-6">
             <div className="h-8 w-8 animate-spin rounded-full border-4 border-t-transparent" style={{ borderColor: '#4f46e5 transparent #4f46e5 #4f46e5' }}></div>
             <p className="text-gray-600">Verifying your email...</p>
-          </div>
+          </div>  
         )}
 
         {!loading && verified && (
