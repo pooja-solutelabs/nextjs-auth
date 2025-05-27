@@ -15,7 +15,6 @@ export default function LoginPage() {
     const [buttonDisabled, setButtonDisabled] = useState(true);
     const [loading, setLoading] = useState(false);
     const [emailError, setEmailError] = useState("");
-    const [passwordError, setPasswordError] = useState("");
     const [showPass, setShowPass] = useState(false);
 
     const validateEmail = (email: string) => {
@@ -43,14 +42,6 @@ export default function LoginPage() {
     const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newPassword = e.target.value;
         setUser({...user, password: newPassword});
-        
-        if (newPassword.length >= 8) {
-            setPasswordError("");
-        } else if (newPassword) {
-            setPasswordError("Password must be at least 8 characters");
-        } else {
-            setPasswordError("");
-        }
     }
 
     const onLogin = async () => {
@@ -58,12 +49,6 @@ export default function LoginPage() {
             setEmailError("Please enter a valid email address");
             return;
         }
-
-        if (user.password.length < 8) {
-            setPasswordError("Password must be at least 8 characters");
-            return;
-        }
-
         try {
             setLoading(true);
             const response = await axios.post("/api/users/login", user);
@@ -80,18 +65,18 @@ export default function LoginPage() {
     }
 
     useEffect(() => {
-        if (user.email.length > 0 && user.password.length > 0 && !emailError && !passwordError) {
+        if (user.email.length > 0 && user.password.length > 0 && !emailError) {
             setButtonDisabled(false);
         } else {
             setButtonDisabled(true);
         }
-    }, [user, emailError, passwordError]);
+    }, [user, emailError]);
 
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col justify-center items-center p-4">
             <div className="absolute top-0 left-0 w-full h-64 bg-gradient-to-r from-blue-500 to-purple-600 rounded-br-full opacity-80"></div>
             <div className="absolute bottom-0 right-0 w-full h-64 bg-gradient-to-l from-orange-500 to-pink-500 rounded-tl-full opacity-70"></div>
-    
+        
             <div className="bg-white p-8 rounded-2xl w-full max-w-md shadow-xl relative z-10 border border-gray-100">
                 <h1 className="text-3xl font-extrabold mb-8 text-center bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text">Login to Your Account</h1>
                 
@@ -152,17 +137,8 @@ export default function LoginPage() {
                                 type={showPass ? "text" : "password"}
                                 value={user.password}
                                 onChange={handlePasswordChange}
-                                onBlur={() => {
-                                    if (user.password && user.password.length < 8) {
-                                        setPasswordError("Password must be at least 8 characters");
-                                    }
-                                }}
                                 placeholder="Your password"
-                                className={`w-full py-3 pl-10 pr-10 text-gray-700 bg-gray-50 rounded-lg border ${
-                                    passwordError ? 'border-red-500' : 'border-gray-200'
-                                } focus:outline-none focus:ring-2 ${
-                                    passwordError ? 'focus:ring-red-500' : 'focus:ring-blue-500'
-                                } focus:border-transparent transition duration-200`}
+                                className="w-full py-3 pl-10 pr-10 text-gray-700 bg-gray-50 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                             />
                             <span
                                 onClick={togglePassVisibility}
@@ -171,16 +147,6 @@ export default function LoginPage() {
                                 {showPass ? <FaEye /> : <FaEyeSlash />}
                             </span>
                         </div>
-                        {passwordError && (
-                            <p className="mt-2 text-sm text-red-600">
-                                <span className="flex items-center">
-                                    <svg className="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                                    </svg>
-                                    {passwordError}
-                                </span>
-                            </p>
-                        )}
                     </div>
 
                     <div className="flex items-center justify-between text-sm">

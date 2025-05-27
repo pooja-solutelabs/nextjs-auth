@@ -21,7 +21,7 @@ export default function UserProfile({ params }: { params: Promise<{ id: string }
         
         <div className="text-center space-y-2 mb-8">
           <h1 className="text-3xl font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text">User Profile</h1>
-          <p className="text-gray-500">Detailed information</p>
+          {/* <p className="text-gray-500">Detailed information</p> */}
         </div>
         
         <div className="border-t border-gray-200 pt-6 mb-6">
