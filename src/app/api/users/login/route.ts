@@ -1,8 +1,8 @@
 import {connect} from "@/dbConfig/dbConfig";
 import User from "@/models/userModel";
 import { NextRequest, NextResponse } from "next/server";
-import bcryptjs from "bcryptjs";
-import jwt from "jsonwebtoken";
+import bcryptjs from "bcryptjs";  //Library to hash and compare passwords securely.
+import jwt from "jsonwebtoken";  //Library to generate and verify JWT tokens
 
 connect()
 
@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
             success: true,
         })
         response.cookies.set("token", token, {
-            httpOnly: true,
+            httpOnly: true,  //Protects the token from being stolen via JavaScript
         })
         return response;
 
